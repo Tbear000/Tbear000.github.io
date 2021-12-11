@@ -18,7 +18,8 @@ scene.background = new THREE.Color('#392f5a')
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
-const particleTexture = textureLoader.load('/textures/particle.png')
+import particleString from '/textures/particle.png'
+const particleTexture = textureLoader.load(particleString)
 
 
 /**
@@ -32,8 +33,9 @@ let secondText = null
 let thirdText = null
 const textMaterial = new THREE.MeshNormalMaterial()
 
+import lobsterURL from '/fonts/Lobster_Regular.json?url'
 fontLoader.load(
-    '/fonts/Lobster_Regular.json',
+    lobsterURL,
     (font) => {
         const textGeometry = new TextGeometry(
             'Theo Winters',
@@ -55,8 +57,9 @@ fontLoader.load(
     }
 )
 
+import inconsolataURL from '/fonts/Inconsolata_Regular.json?url'
 fontLoader.load(
-    '/fonts/Inconsolata_Regular.json',
+    inconsolataURL,
     (font) => {
         const secondGeometry = new TextGeometry(
             'Contact',

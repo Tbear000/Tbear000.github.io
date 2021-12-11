@@ -2,6 +2,7 @@ const { resolve } = require('path')
 const { defineConfig } = require('vite')
 
 module.exports = defineConfig({
+  assetsInclude: ['/fonts/*.json'],
   build: {
     outDir: resolve(__dirname, 'docs'),
     rollupOptions: {
