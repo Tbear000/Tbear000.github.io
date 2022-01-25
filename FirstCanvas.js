@@ -8,7 +8,7 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
  */
 
 // Canvas
-const canvas = document.querySelector('canvas.webgl')
+const canvas = document.querySelector('canvas.FirstCanvas')
 
 // Scene
 const scene = new THREE.Scene()
@@ -30,7 +30,6 @@ const fontLoader = new FontLoader()
 
 let text = null
 let secondText = null
-let thirdText = null
 const textMaterial = new THREE.MeshNormalMaterial()
 
 import lobsterURL from '/fonts/Lobster_Regular.json?url'
@@ -53,6 +52,7 @@ fontLoader.load(
         )
         textGeometry.center()
         text = new THREE.Mesh(textGeometry, textMaterial)
+        text.position.set(3, 2, -3)
         scene.add(text)
     }
 )
@@ -62,7 +62,7 @@ fontLoader.load(
     inconsolataURL,
     (font) => {
         const secondGeometry = new TextGeometry(
-            'Contact',
+            'Design',
             {
                 font,
                 size: 0.7,
@@ -72,24 +72,9 @@ fontLoader.load(
             }
         )
         secondGeometry.center()
-        const thirdGeometry = new TextGeometry(
-            'Examples',
-            {
-                font,
-                size: 0.7,
-                height: 0.1,
-                curveSegments: 12,
-                bevelEnabled: false
-            }
-        )
-        thirdGeometry.center()
         secondText = new THREE.Mesh(secondGeometry, textMaterial)
-        secondText.position.y = -3
-        secondText.rotation.x = Math.PI / 8
-        thirdText = new THREE.Mesh(thirdGeometry, textMaterial)
-        thirdText.position.y = 3
-        thirdText.rotation.x = - Math.PI / 8
-        scene.add(secondText, thirdText)
+        secondText.position.set(7, 0.5, -3)
+        scene.add(secondText)
     }
 )
 
