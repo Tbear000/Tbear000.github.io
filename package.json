@@ -2,7 +2,7 @@
   "name": "tbear000.github.io",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "lil-gui": "^0.15.0",
+    "parallax-js": "^3.1.0",
     "three": "^0.135.0"
   }
 }

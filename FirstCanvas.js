@@ -30,6 +30,7 @@ const fontLoader = new FontLoader()
 
 let text = null
 let secondText = null
+const TextGroup = new THREE.Group()
 const textMaterial = new THREE.MeshNormalMaterial()
 
 import lobsterURL from '/fonts/Lobster_Regular.json?url'
@@ -52,8 +53,8 @@ fontLoader.load(
         )
         textGeometry.center()
         text = new THREE.Mesh(textGeometry, textMaterial)
-        text.position.set(3, 2, -3)
-        scene.add(text)
+        text.position.set(0, 0, -5)
+        TextGroup.add(text)
     }
 )
 
@@ -73,11 +74,12 @@ fontLoader.load(
         )
         secondGeometry.center()
         secondText = new THREE.Mesh(secondGeometry, textMaterial)
-        secondText.position.set(7, 0.5, -3)
-        scene.add(secondText)
+        secondText.position.set(4, -1.5, -5)
+        TextGroup.add(secondText)
     }
 )
 
+scene.add(TextGroup)
 //Stars
 const particleGeometry = new THREE.BufferGeometry()
 const count = 5000
@@ -106,7 +108,8 @@ scene.add(particles)
  */
 const sizes = {
     width: window.innerWidth,
-    height: window.innerHeight
+    height: window.innerHeight,
+    ratio: window.innerWidth/window.innerHeight
 }
 
 window.addEventListener('resize', () =>
@@ -114,6 +117,7 @@ window.addEventListener('resize', () =>
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
+    sizes.ratio = window.innerWidth / window.innerHeight
 
     // Update camera
     camera.aspect = sizes.width / sizes.height
@@ -124,6 +128,13 @@ window.addEventListener('resize', () =>
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
 
+
+if(sizes.ratio < 1){
+    TextGroup.position.set(0, 3, -5) //For Mobile
+} else {
+    TextGroup.position.set(4, 2, 0) //For Desktop
+}
+
 /**
  * Camera
  */
@@ -131,28 +142,27 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 
 camera.position.z = 4
 scene.add(camera)
 
-const mousePos = new THREE.Vector2()
-canvas.addEventListener('mousemove', (event) => { 
+if(window.DeviceOrientationEvent){
+    let gamma
+    window.addEventListener('deviceorientation', event => {
+        gamma = event.gamma
+        camera.rotation.y = gamma
+    }, true)
+} else {
+    const mousePos = new THREE.Vector2()
+    canvas.addEventListener('mousemove', (event) => { 
     mousePos.x = ( event.clientX / window.innerWidth ) * 2 - 1
     mousePos.y = - ( event.clientY / window.innerHeight ) * 2 + 1
     camera.position.x = mousePos.x * 2
     camera.position.y = mousePos.y * 6
     camera.lookAt(new THREE.Vector3(0,0,0))
-})
+    })
+}
 
-window.addEventListener('click', () => {
-    if(currentIntersection){
-        console.log(currentIntersection)
-        switch(currentIntersection.object){
-            case secondText:
-                window.location.replace('/contact/')
-                break
-            case thirdText:
-                window.location.replace('/examples/')
-                break
-        }
-    }
-})
+
+
+
+
 
 /**
  * Renderer
@@ -167,25 +177,10 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  * Animate
  */
 const clock = new THREE.Clock()
-const raycaster = new THREE.Raycaster()
-let currentIntersection = null
 
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
-
-    //Raycast
-    raycaster.setFromCamera(mousePos, camera)
-
-    const isMesh = (element) => element.object != particles
-
-    const intersects = raycaster.intersectObjects(scene.children, false)
-    if(intersects[0]){
-        let intersect = intersects.findIndex(isMesh)
-        if(intersect >= 0){
-            currentIntersection = intersects[intersect]
-        }
-    }
 
     particles.rotation.x = elapsedTime / 60
     particles.rotation.y = elapsedTime / 75

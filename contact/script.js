@@ -12,10 +12,6 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
-const textureLoader = new THREE.TextureLoader()
-import matcapURL from '/textures/matcap.png'
-const matcapTexture = textureLoader.load(matcapURL)
-
 /**
  * Fonts
  */
@@ -24,7 +20,7 @@ const fontLoader = new FontLoader()
 
 let text = null
 let secondText = null
-const textMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture })
+const textMaterial = new THREE.MeshBasicMaterial({ wireframe:true })
 
 import inconsolataURL from '/fonts/Inconsolata_Regular.json?url'
 fontLoader.load(
