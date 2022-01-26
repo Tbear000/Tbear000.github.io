@@ -3,10 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@700&family=Poiret+One&display=swap" rel="stylesheet">
     <title>Theodore Winters</title>
 </head>
 <body>
-    <canvas class="webgl"></canvas>
-    <script type="module" src="./script.js"></script>
+    <nav>
+        <img src="/textures/WebDesignLogo.png" alt="Theo Winters Design Logo" class="Logo">
+        <ul>
+            <li><a href="/examples/index.html">Examples</a></li>
+            <li><a href="/contact/index.html">Contact Me</a></li>
+        </ul>
+    </nav>
+    <canvas class="FirstCanvas"></canvas>
+    <div class="Middle">
+        <h1>Nothing is as it seems anymore.</h1>
+        <p>With technology constantly changing, trying to maintain a modern image is its own full time job. I can make it easier for you by pushing you into the forefront of web presence.
+        </p>
+    </div>
+    <canvas class="SecondCanvas"></canvas>
+    <script type="module" src="./FirstCanvas.js"></script>
+    <script type="module" src="./SecondCanvas.js"></script>
 </body>
 </html>
