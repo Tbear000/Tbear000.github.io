@@ -146,7 +146,7 @@ if(window.DeviceOrientationEvent){
     let gamma
     window.addEventListener('deviceorientation', event => {
         gamma = event.gamma
-        camera.rotation.y = gamma / 10
+        camera.rotation.y = gamma / 30
     }, true)
 } else {
     const mousePos = new THREE.Vector2()

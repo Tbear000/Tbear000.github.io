@@ -1,95 +1,160 @@
-*
-{
+* {
     margin: 0;
     padding: 0;
-    font-size: 0;
 }
+
 body::-webkit-scrollbar {
     display: none;
 }
-body{
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+
+body {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
-h1
-{
-    font-size: 60px;
-    font-weight: 900;
-    font-family: 'Playfair Display SC', serif;
-    color: rgb(61, 206, 162);
-}
-p
-{
-    font-size: 25px;
+
+p {
     font-family: 'Poiret One', cursive;
-    font-weight: 600;
     color: rgb(255, 255, 255);
 }
-canvas
-{
+
+canvas {
+    position: fixed;
     top: 0;
     left: 0;
-    outline: none;
-    overflow: hidden;
 }
-nav
-{
+
+nav {
+    z-index: 100;
     position: fixed;
     top: 0;
     height: 100px;
-    width: 90%;
-    padding: 10px 5% 10px 5%;
+    width: 100%;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
 }
-.Logo
-{
-    padding-top: 5px;
+
+.Logo {
     height: 90px;
     object-fit: contain;
-    padding-left: 11%;
+    padding: 1rem;
+    grid-column: 3;
 }
-ul {
-    list-style-type: none;
-    overflow: hidden;
-    display: inline;
-    padding-right: 15%;
-  }
-  
-  li {
-    float: right;
-    padding-top: 2%;
-    padding-right: 2%;
-  }
-  
-  li a {
+
+.nav {
     text-decoration: none;
-    display: block;
-    padding: 8px 0px;
     font-size: 30px;
     font-weight: 900;
     font-family: 'Playfair Display SC', serif;
     color: rgb(210, 255, 241);
-  }
-
-  li a:hover{
-    color: rgb(129, 160, 150);
-  }
-
-.Middle{
-    position: absolute;
-    top: 55%;
-    left: 15%;
-    pointer-events: none;
-    width: 60%;
-}
-.Middle h1
-{
-    text-align: justify;
-    text-shadow: 5px 5px 5px rgb(34, 102, 82);
-}
-.Middle p
-{
-    padding-top: 50px;
-    width: 65%;
     text-align: left;
-    text-shadow: 3px 2px 2px grey;
+    margin-top: auto;
+    padding-bottom: 1rem;
+}
+
+.examples {
+    grid-column: 8/10;
+}
+
+.contact {
+    grid-column: 10/12;
+}
+
+.examples:hover,
+.contact:hover {
+    color: rgb(129, 160, 150);
+}
+
+main {
+    width: 100vw;
+    color: white;
+    z-index: 99;
+    position: absolute;
+    margin: 0px auto;
+    padding: 40rem 0px 0px 0px;
+    pointer-events: none;
+    display: grid;
+    grid-template: repeat(10, 1fr) / repeat(12, 1fr);
+}
+
+h1,
+h2,
+h3,
+blockquote {
+    font-family: 'Playfair Display SC', serif;
+    color: rgb(61, 206, 162);
+}
+
+section {
+    grid-row: span 3;
+    padding: 1rem;
+    background: var(--dark-bg);
+    font-size: 1.25rem;
+    line-height: 1.5;
+    margin-bottom: var(--spacing);
+    text-align: justify;
+}
+
+blockquote {
+    margin: 0;
+    padding: 0;
+    grid-column: 2 / span 9;
+    margin-bottom: var(--spacing);
+}
+
+blockquote p {
+    padding: 1rem;
+    color: black;
+    background-color: rgba(255, 255, 255, 0.459);
+    border-radius: 0.5em;
+    font-size: 4rem;
+    display: inline;
+    line-height: 1;
+}
+
+.left {
+    grid-row: 7;
+    grid-column: 7 / 12;
+}
+
+.one {
+    grid-column: 2 / 8;
+    grid-row: 2 / span 2;
+}
+
+.one p {
+    text-shadow: .3em .3em 0.2em black;
+}
+
+.two {
+    grid-row: 4 / span 1;
+    grid-column: 2 / 7;
+}
+
+.three {
+    grid-row: 4 / span 1;
+    grid-column: 7/11;
+}
+
+.quote {
+    grid-row: 6;
+    grid-column: 2 / 11;
+}
+
+.middle {
+    grid-row: 7;
+    grid-column: 2 / 7;
+}
+
+.right {
+    grid-row: 8;
+    grid-column: 4 / 10;
+}
+
+footer {
+    align-self: end;
+    grid-row: 10;
+    grid-column: 9 / span 3;
 }
