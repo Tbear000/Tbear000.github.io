@@ -38,8 +38,7 @@ fontLoader.load(
     lobsterURL,
     (font) => {
         const textGeometry = new TextGeometry(
-            'Theo Winters',
-            {
+            'Theo Winters', {
                 font,
                 size: 1.5,
                 height: 0.2,
@@ -63,8 +62,7 @@ fontLoader.load(
     inconsolataURL,
     (font) => {
         const secondGeometry = new TextGeometry(
-            'Design',
-            {
+            'Design', {
                 font,
                 size: 0.7,
                 height: 0.1,
@@ -80,7 +78,7 @@ fontLoader.load(
 )
 
 scene.add(TextGroup)
-//Stars
+    //Stars
 const particleGeometry = new THREE.BufferGeometry()
 const count = 5000
 const positions = new Float32Array(count * 3)
@@ -100,7 +98,7 @@ const particleMaterial = new THREE.PointsMaterial({
     blending: THREE.AdditiveBlending
 })
 const particles = new THREE.Points(particleGeometry, particleMaterial)
-// gui.addColor(particleMaterial, 'color')
+    // gui.addColor(particleMaterial, 'color')
 scene.add(particles)
 
 /**
@@ -109,11 +107,10 @@ scene.add(particles)
 const sizes = {
     width: window.innerWidth,
     height: window.innerHeight,
-    ratio: window.innerWidth/window.innerHeight
+    ratio: window.innerWidth / window.innerHeight
 }
 
-window.addEventListener('resize', () =>
-{
+window.addEventListener('resize', () => {
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
@@ -129,7 +126,7 @@ window.addEventListener('resize', () =>
 })
 
 
-if(sizes.ratio < 1){
+if (sizes.ratio < 1) {
     TextGroup.position.set(0, 3, -5) //For Mobile
 } else {
     TextGroup.position.set(4, 2, 0) //For Desktop
@@ -142,26 +139,20 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 
 camera.position.z = 4
 scene.add(camera)
 
-if(window.DeviceOrientationEvent){
-    let gamma
-    window.addEventListener('deviceorientation', event => {
-        gamma = event.gamma
-        camera.rotation.y = gamma / 30
-    }, true)
-} else {
-    const mousePos = new THREE.Vector2()
-    canvas.addEventListener('mousemove', (event) => { 
-    mousePos.x = ( event.clientX / window.innerWidth ) * 2 - 1
-    mousePos.y = - ( event.clientY / window.innerHeight ) * 2 + 1
+let gamma
+window.addEventListener('deviceorientation', event => {
+    gamma = event.gamma / 90
+    camera.rotation.y = Math.PI / 4 * gamma
+}, true)
+
+const mousePos = new THREE.Vector2()
+canvas.addEventListener('mousemove', (event) => {
+    mousePos.x = (event.clientX / window.innerWidth) * 2 - 1
+    mousePos.y = -(event.clientY / window.innerHeight) * 2 + 1
     camera.position.x = mousePos.x * 2
     camera.position.y = mousePos.y * 6
-    camera.lookAt(new THREE.Vector3(0,0,0))
-    })
-}
-
-
-
-
+    camera.lookAt(new THREE.Vector3(0, 0, 0))
+})
 
 
 /**
@@ -178,8 +169,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  */
 const clock = new THREE.Clock()
 
-const tick = () =>
-{
+const tick = () => {
     const elapsedTime = clock.getElapsedTime()
 
     particles.rotation.x = elapsedTime / 60

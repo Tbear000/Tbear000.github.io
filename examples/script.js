@@ -1,14 +1,9 @@
-import '../style.css'
+import './style.css'
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import * as dat from 'lil-gui'
 
 /**
  * Base
  */
-// Debug
-const gui = new dat.GUI({ width:350 })
-
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
@@ -16,85 +11,75 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 /**
- * Galaxy
+ * Plane
  */
-const parameters = {
-    count: 100000,
-    particleSize: 0.01,
-    radius: 5,
-    branches: 5,
-    spinAngle: 1,
-    randomness:0.02,
-    randomPower: 3,
-    insideColor: '#ff6030',
-    outsideColor: '#1b3984'
-}
+function generatePlane() {
+    planeMesh.geometry.dispose()
+    planeMesh.geometry = new THREE.PlaneGeometry(
+        400,
+        400,
+        50,
+        50
+    )
 
-let geometry = null
-let material = null
-let particles = null
+    // vertice position randomization
+    const { array } = planeMesh.geometry.attributes.position
+    const randomValues = []
+    for (let i = 0; i < array.length; i++) {
+        if (i % 3 === 0) {
+            const x = array[i]
+            const y = array[i + 1]
+            const z = array[i + 2]
 
-const generateGalaxy = () => {
-    if(geometry != null){
-        geometry.dispose()
-        material.dispose()
-        scene.remove(particles)
+            array[i] = x + (Math.random() - 0.5) * 3
+            array[i + 1] = y + (Math.random() - 0.5) * 3
+            array[i + 2] = z + (Math.random() - 0.5) * 3
+        }
+
+        randomValues.push(Math.random() * Math.PI * 2)
     }
 
-    geometry = new THREE.BufferGeometry()
-    const positions = new Float32Array(parameters.count * 3)
-    const colors = new Float32Array(parameters.count * 3)
+    planeMesh.geometry.attributes.position.randomValues = randomValues
+    planeMesh.geometry.attributes.position.originalPosition =
+        planeMesh.geometry.attributes.position.array
 
-    const colorInside = new THREE.Color(parameters.insideColor)
-    const colorOutside = new THREE.Color(parameters.outsideColor)
-    
-    for (let i = 0; i < parameters.count; i++) {
-        const i3 = i * 3
-        const radius = Math.random() * parameters.radius
-        const spinAngle = radius * parameters.spinAngle
-        const branchAngle = (i % parameters.branches) / parameters.branches * Math.PI * 2
-
-        const randomX = Math.pow(Math.random(), parameters.randomPower) * (Math.random() < 0.5 ? 1 : -1)
-        const randomY = Math.pow(Math.random(), parameters.randomPower) * (Math.random() < 0.5 ? 1 : -1) /2
-        const randomZ = Math.pow(Math.random(), parameters.randomPower) * (Math.random() < 0.5 ? 1 : -1)
-
-
-        positions[i3] = Math.cos(branchAngle + spinAngle) * radius + randomX
-        positions[i3+1] = randomY / 2
-        positions[i3+2] = Math.sin(branchAngle + spinAngle) * radius + randomZ
-    
-        const mixedColor = colorInside.clone()
-        mixedColor.lerp(colorOutside, radius / parameters.radius)
-
-        colors[i3] = mixedColor.r
-        colors[i3+1] = mixedColor.g
-        colors[i3+2] = mixedColor.b
+    const colors = []
+    for (let i = 0; i < planeMesh.geometry.attributes.position.count; i++) {
+        colors.push(0.223, 0.184, 0.352)
     }
 
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
-
-    material = new THREE.PointsMaterial({ 
-        size: parameters.particleSize,
-        sizeAttenuation: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-        vertexColors: true
-    })
-    
-    particles = new THREE.Points(geometry, material)
-    scene.add(particles)
+    planeMesh.geometry.setAttribute(
+        'color',
+        new THREE.BufferAttribute(new Float32Array(colors), 3)
+    )
 }
-generateGalaxy()
-gui.add(parameters, 'count', 100, 1000000, 100).onFinishChange(generateGalaxy).name('Number of Particles')
-gui.add(parameters, 'particleSize', 0.001, .1, 0.001).onFinishChange(generateGalaxy).name('Size of particles')
-gui.add(parameters, 'radius', 0.01, 20, 0.01).onFinishChange(generateGalaxy).name('Galaxy Radius')
-gui.add(parameters, 'branches', 2, 20, 1).onFinishChange(generateGalaxy).name('Number of Branches')
-gui.add(parameters, 'spinAngle', -5, 5, 0.01).onFinishChange(generateGalaxy).name('Branch Spin Angle')
-gui.add(parameters, 'randomness', 0, 2, 0.01).onFinishChange(generateGalaxy).name('Randomness')
-gui.add(parameters, 'randomPower', 1, 10, 0.01).onFinishChange(generateGalaxy).name('Power of Randomness')
-gui.addColor(parameters, 'insideColor').onFinishChange(generateGalaxy).name('Inside Color')
-gui.addColor(parameters, 'outsideColor').onFinishChange(generateGalaxy).name('Outside Color')
+
+const planeGeometry = new THREE.PlaneGeometry(
+    400,
+    400,
+    50,
+    50
+)
+const planeMaterial = new THREE.MeshPhongMaterial({
+    side: THREE.DoubleSide,
+    flatShading: THREE.FlatShading,
+    vertexColors: true
+})
+const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial)
+scene.add(planeMesh)
+generatePlane()
+
+/**
+ * Lights
+ */
+const light = new THREE.DirectionalLight(0xffffff, 1)
+light.position.set(0.5, 0.5, 1)
+scene.add(light)
+
+const backLight = new THREE.DirectionalLight(0xffffff, 1)
+backLight.position.set(0, 0, -1)
+scene.add(backLight)
+
 
 /**
  * Sizes
@@ -104,8 +89,7 @@ const sizes = {
     height: window.innerHeight
 }
 
-window.addEventListener('resize', () =>
-{
+window.addEventListener('resize', () => {
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
@@ -124,14 +108,14 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 3
-camera.position.y = 3
-camera.position.z = 3
+camera.position.z = 80
 scene.add(camera)
 
-// Controls
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
+window.addEventListener("scroll", () => {
+    let scrollPercentage = (document.documentElement.scrollTop + document.body.scrollTop) / (document.documentElement.scrollHeight - document.documentElement.clientHeight)
+    camera.position.setY(-50 * scrollPercentage)
+})
+
 
 /**
  * Renderer
@@ -147,15 +131,24 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  */
 const clock = new THREE.Clock()
 
-const tick = () =>
-{
+const tick = () => {
     const elapsedTime = clock.getElapsedTime()
 
-    if(particles != null){
-        particles.rotation.y = (elapsedTime / parameters.branches) * - parameters.spinAngle / parameters.radius
+    const {
+        array,
+        originalPosition,
+        randomValues
+    } = planeMesh.geometry.attributes.position
+    for (let i = 0; i < array.length; i += 3) {
+        // x
+        array[i] = originalPosition[i] + Math.cos(elapsedTime + randomValues[i]) * 0.0035
+
+        // y
+        array[i + 1] =
+            originalPosition[i + 1] + Math.sin(elapsedTime + randomValues[i + 1]) * 0.0012
     }
-    // Update controls
-    controls.update()
+
+    planeMesh.geometry.attributes.position.needsUpdate = true
 
     // Render
     renderer.render(scene, camera)

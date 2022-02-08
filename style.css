@@ -14,33 +14,30 @@ body {
     /* Firefox */
 }
 
-p {
-    font-family: 'Poiret One', cursive;
-    color: rgb(255, 255, 255);
-}
-
 canvas {
     position: fixed;
     top: 0;
     left: 0;
 }
 
+p {
+    font-family: 'Poiret One', cursive;
+    color: rgb(255, 255, 255);
+}
+
 nav {
     z-index: 100;
-    position: fixed;
+    position: absolute;
     top: 0;
     height: 100px;
-    width: 100%;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
+    width: 80%;
+    padding: 1em 10%;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .Logo {
-    height: 90px;
     object-fit: contain;
-    padding: 1rem;
-    grid-column: 3;
 }
 
 .nav {
@@ -50,16 +47,8 @@ nav {
     font-family: 'Playfair Display SC', serif;
     color: rgb(210, 255, 241);
     text-align: left;
-    margin-top: auto;
-    padding-bottom: 1rem;
-}
-
-.examples {
-    grid-column: 8/10;
-}
-
-.contact {
-    grid-column: 10/12;
+    margin-left: auto;
+    padding: 1rem;
 }
 
 .examples:hover,
@@ -70,13 +59,11 @@ nav {
 main {
     width: 100vw;
     color: white;
-    z-index: 99;
     position: absolute;
-    margin: 0px auto;
     padding: 40rem 0px 0px 0px;
     pointer-events: none;
     display: grid;
-    grid-template: repeat(10, 1fr) / repeat(12, 1fr);
+    grid-template: repeat(8, 1fr) / repeat(11, 1fr);
 }
 
 h1,
@@ -88,69 +75,57 @@ blockquote {
 }
 
 section {
-    grid-row: span 3;
     padding: 1rem;
-    background: var(--dark-bg);
     font-size: 1.25rem;
     line-height: 1.5;
-    margin-bottom: var(--spacing);
     text-align: justify;
+    background-color: rgba(0, 0, 0, 0.507);
 }
 
 blockquote {
     margin: 0;
     padding: 0;
     grid-column: 2 / span 9;
-    margin-bottom: var(--spacing);
+    text-align: center;
 }
 
 blockquote p {
-    padding: 1rem;
+    padding: 0.5rem;
     color: black;
     background-color: rgba(255, 255, 255, 0.459);
-    border-radius: 0.5em;
     font-size: 4rem;
     display: inline;
-    line-height: 1;
-}
-
-.left {
-    grid-row: 7;
-    grid-column: 7 / 12;
+    line-height: 1.42em;
 }
 
 .one {
-    grid-column: 2 / 8;
-    grid-row: 2 / span 2;
+    grid-column: 3 / 10;
+    grid-row: 3 / span 2;
+}
+
+.one h2 {
+    font-size: 3em;
+    text-align: left;
 }
 
 .one p {
     text-shadow: .3em .3em 0.2em black;
+    text-align: justify;
 }
 
 .two {
-    grid-row: 4 / span 1;
-    grid-column: 2 / 7;
+    grid-column: 4 / 9;
+    grid-row: 6 / span 1;
 }
 
-.three {
-    grid-row: 4 / span 1;
-    grid-column: 7/11;
+.two h2 {
+    text-align: right;
 }
 
-.quote {
-    grid-row: 6;
-    grid-column: 2 / 11;
-}
-
-.middle {
-    grid-row: 7;
-    grid-column: 2 / 7;
-}
-
-.right {
-    grid-row: 8;
-    grid-column: 4 / 10;
+.two a {
+    text-decoration: none;
+    color: rgb(255, 168, 168);
+    pointer-events: visible;
 }
 
 footer {
