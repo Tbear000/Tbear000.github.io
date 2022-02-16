@@ -155,6 +155,7 @@ main {
 }
 
 section {
+    height: 400px;
     margin: 3em 0;
     padding: 2em 5%;
     position: relative;
@@ -176,28 +177,30 @@ section h2 {
 }
 
 .grid-container {
+    height: 80%;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 1em;
 }
 
 .grid-container a {
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.336);
     border-radius: 1em;
     text-decoration: none;
     color: rgb(210, 255, 241);
     text-align: center;
-    padding: 0.5em;
+    padding: 10px;
     transition: all 1s ease-out;
     z-index: 3;
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
-    justify-content: center;
-    align-content: space-between;
+    justify-content: space-between;
 }
 
 .grid-container a p {
-    align-self: flex-end;
+    align-self: center;
 }
 
 .grid-container a p,
@@ -206,7 +209,7 @@ section h2 {
 }
 
 .grid-container a img {
-    margin: auto;
+    margin: 0 auto;
     border-radius: 5px;
 }
 
@@ -231,12 +234,11 @@ section h2 {
     height: 100px;
 }
 
-footer p {
+footer {
     position: absolute;
     z-index: 10;
     color: antiquewhite;
     right: 5%;
-    margin-bottom: 1%;
 }
 
 .container {
