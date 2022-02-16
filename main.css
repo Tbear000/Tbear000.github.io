@@ -147,6 +147,7 @@ nav {
     top: 0;
     left: 0;
     overflow: hidden;
+    z-index: -1;
 }
 
 main {
@@ -158,10 +159,12 @@ section {
     padding: 2em 5%;
     position: relative;
     z-index: 2;
-    background-color: rgba(250, 235, 215, 0.521);
-    border: 2px solid black;
-    border-radius: 1em;
+    background-color: rgba(255, 255, 255, 0.219);
+    border: 1px solid rgb(151, 151, 151);
+    backdrop-filter: blur(5px);
+    border-radius: 15px;
     box-shadow: 1em 1em 1em rgba(0, 0, 0, 0.486);
+    backdrop-filter: blur(5px);
 }
 
 section h2 {
@@ -169,23 +172,32 @@ section h2 {
     padding-bottom: 1em;
     font-weight: 600;
     text-shadow: 10px 10px 0.5em black;
+    color: rgb(210, 255, 241);
 }
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 1em;
 }
 
 .grid-container a {
-    background-color: rgba(0, 0, 0, 0.568);
+    background-color: rgba(0, 0, 0, 0.336);
     border-radius: 1em;
     text-decoration: none;
-    color: antiquewhite;
+    color: rgb(210, 255, 241);
     text-align: center;
     padding: 0.5em;
     transition: all 1s ease-out;
     z-index: 3;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: space-between;
+}
+
+.grid-container a p {
+    align-self: flex-end;
 }
 
 .grid-container a p,
@@ -195,6 +207,7 @@ section h2 {
 
 .grid-container a img {
     margin: auto;
+    border-radius: 5px;
 }
 
 .grid-container a h3 {
@@ -224,4 +237,71 @@ footer p {
     color: antiquewhite;
     right: 5%;
     margin-bottom: 1%;
+}
+
+.container {
+    margin: 75px auto 0;
+    height: 600px;
+    width: 800px;
+    background-color: rgba(255, 255, 255, 0.219);
+    border: 1px solid rgb(151, 151, 151);
+    backdrop-filter: blur(5px);
+    z-index: 2;
+    border-radius: 15px;
+    padding: 5px 15px;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(210, 255, 241);
+}
+
+form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.group input,
+.group textarea {
+    width: 100%;
+    margin-top: 5px;
+}
+
+button {
+    height: 50px;
+    border: none;
+    background-color: #392f5a;
+    color: rgb(210, 255, 241);
+    font-size: 2rem;
+    border-radius: 15px;
+}
+
+#status {
+    color: aliceblue;
+    margin: 0px auto;
+    border-radius: 0 0 50% 50%;
+    width: 400px;
+    height: 3rem;
+    text-align: center;
+    transform: translateY(0);
+    padding-top: 10px;
+}
+
+#status.success {
+    background-color: green;
+    animation: success 1s ease-in;
+}
+
+#status.error {
+    animation: success 1s ease-in;
+    background-color: red;
+}
+
+@keyframes success {
+    from {
+        transform: translateY(-100px);
+    }
+    to {
+        transform: translateY(0px);
+    }
 }
