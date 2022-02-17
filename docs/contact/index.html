@@ -1,17 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Theo Winters - Contact</title>
-  <script type="module" crossorigin src="/assets/contact.12b037dc.js"></script>
-  <link rel="modulepreload" href="/assets/modulepreload-polyfill.b7f2da20.js">
-  <link rel="modulepreload" href="/assets/Inconsolata_Regular.2025088d.js">
-  <link rel="modulepreload" href="/assets/vendor.5a5d2db5.js">
-  <link rel="stylesheet" href="/assets/Inconsolata_Regular.6c3ea49b.css">
+  <script type="module" crossorigin src="/assets/modulepreload-polyfill.b7f2da20.js"></script>
+  <script type="module" crossorigin src="/assets/vendor.b515687a.js"></script>
+  <script type="module" crossorigin src="/assets/backgroundScript.c9a8ebec.js"></script>
+  <link rel="stylesheet" href="/assets/backgroundScript.9c23098c.css">
 </head>
+
 <body>
+    <nav>
+        <a href="../index.html"><img src="/assets/WebDesignLogo.9f5b29cb.png" alt="Theo Winters Design Logo" class="Logo"></a>
+        <a class="examples nav" href="../examples/index.html">Examples</a>
+        <a class="contact nav" href="../contact/index.html">Contact Me</a>
+    </nav>
+    <div class="container">
+        <form id="my-form" action="https://formspree.io/f/myyowjkz" method="post">
+            <div class="group">
+                <label for="customerName">Name</label>
+                <input type="text" name="customerName" id="customerName">
+            </div>
+            <div class="group">
+                <label for="customerContact">Email / Phone</label>
+                <input type="text" name="customerContact" id="customerContact">
+            </div>
+            <div class="group">
+                <label for="existingWebsite">Existing Website</label>
+                <input type="text" name="existingWebsite" id="existingWebsite">
+            </div>
+            <div class="group">
+                <label for="message">Additional Info</label>
+                <textarea name="message" id="message" cols="30" rows="10"></textarea>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div id="status" class=""></div>
+    <footer>
+        <p>Made By Theo Winters Design. All Rights Reserved.</p>
+    </footer>
     <canvas class="webgl"></canvas>
     
+    <script>
+        var form = document.getElementById("my-form");
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            var status = document.getElementById("status");
+            var data = new FormData(event.target);
+            fetch(event.target.action, {
+                method: form.method,
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    status.classList.add('success')
+                    status.innerHTML = "Thanks for your submission!";
+                    form.reset()
+                } else {
+                    status.classList.add('error')
+                    response.json().then(data => {
+                        if (Object.hasOwn(data, 'errors')) {
+                            status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
+                        } else {
+                            status.innerHTML = "Oops! There was a problem submitting your form"
+                        }
+                    })
+                }
+            }).catch(error => {
+                status.innerHTML = "Oops! There was a problem submitting your form"
+            });
+        }
+        form.addEventListener("submit", handleSubmit)
+    </script>
 </body>
+
 </html>
